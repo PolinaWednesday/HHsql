@@ -18,7 +18,8 @@ class DBManager:
                                'JOIN vacancies USING (company_id) '
                                'GROUP BY company_name;')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -36,7 +37,8 @@ class DBManager:
                                'FROM vacancies '
                                'JOIN companies USING (company_id);')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -55,7 +57,8 @@ class DBManager:
                                'JOIN vacancies USING (company_id) '
                                'GROUP BY company_name;')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -72,7 +75,8 @@ class DBManager:
                                'FROM vacancies '
                                'WHERE salary > (SELECT AVG(salary) FROM vacancies);')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -92,7 +96,8 @@ class DBManager:
                 OR lower(title_vacancy) LIKE '%{keyword}'
                 OR lower(title_vacancy) LIKE '{keyword}%'""")
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'

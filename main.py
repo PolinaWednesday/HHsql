@@ -16,8 +16,6 @@ if __name__ == '__main__':
                  ]
 
     print("Hello! Я скрипт для поиска вакансий в hh.ru")
-    print("Создадим базу данных?")
-    user_input = input()
     print("Введите имя базы данных: ")
     database_name = input().lower()
     update_database_config()
