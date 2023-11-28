@@ -53,14 +53,14 @@ def create_db(database_name, params):
     connection.autocommit = True
 
     with connection.cursor() as cursor:
-        #cursor.execute(f'DROP DATABASE {database_name}')
-        cursor.execute(f'CREATE DATABASE {database_name}')
+        # cursor.execute(f'DROP DATABASE {database_name.lower()}')
+        cursor.execute(f'CREATE DATABASE {database_name.lower()}')
 
     connection.close()
 
 
 def create_tables(database_name, params):
-    connection = psycopg2.connect(database=database_name, **params)
+    connection = psycopg2.connect(database=database_name.lower(), **params)
 
     with connection.cursor() as cursor:
         cursor.execute('CREATE TABLE companies('
@@ -84,7 +84,7 @@ def create_tables(database_name, params):
 
 
 def fill_db(employers: list[dict], database_name, params):
-    connection = psycopg2.connect(database=database_name, **params)
+    connection = psycopg2.connect(database=database_name.lower(), **params)
 
     with connection.cursor() as cursor:
         for employer in employers:
@@ -109,3 +109,19 @@ def fill_db(employers: list[dict], database_name, params):
 
     connection.commit()
     connection.close()
+
+
+def update_database_config():
+    config_data = {
+        'host': input('Введите хост: '),
+        'user': input('Введите имя пользователя: '),
+        'password': input('Введите пароль: '),
+        'port': input('Введите порт: ')
+    }
+
+    with open('database.ini', 'w') as config_file:
+        config_file.write('[postgresql]\n')
+        for key, value in config_data.items():
+            config_file.write(f'{key}={value}\n')
+
+    print('Данные успешно обновлены!')
