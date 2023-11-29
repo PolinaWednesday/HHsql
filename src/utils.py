@@ -3,12 +3,9 @@ import psycopg2
 
 
 def get_employers(companies):
-    """
-    В качестве аргумента принимает список с id компаниями
-    Возвращает список словарей формата
+    """ В качестве аргумента принимает список с id компаниями и возвращает список словарей формата
     {company:
-    vacancies:}
-    """
+    vacancies:} """
     employers = []
     for company in companies:
         url = f'https://api.hh.ru/employers/{company}'
@@ -23,10 +20,8 @@ def get_employers(companies):
 
 
 def filter_strings(string: str) -> str:
-    """
-    Принимает в качестве аргумента строку
-    Возвращает измененную строку без символов, прописанных в списке symbols
-    """
+    """ Принимает в качестве аргумента строку
+    и возвращает измененную строку без символов, прописанных в списке symbols"""
 
     symbols = ['\n', '<strong>', '\r', '</strong>', '</p>', '<p>', '</li>', '<li>',
                '<b>', '</b>', '<ul>', '<li>', '</li>', '<br />', '</ul>']
@@ -38,6 +33,7 @@ def filter_strings(string: str) -> str:
 
 
 def filter_salary(salary):
+    """ Фильтр salary"""
     if salary is not None:
         if salary['from'] is not None and salary['to'] is not None:
             return round((salary['from'] + salary['to']) / 2)
@@ -49,6 +45,7 @@ def filter_salary(salary):
 
 
 def create_db(database_name, params):
+    """ Создает базу данных """
     connection = psycopg2.connect(database='postgres', **params)
     connection.autocommit = True
 
@@ -60,6 +57,7 @@ def create_db(database_name, params):
 
 
 def create_tables(database_name, params):
+    """ Создает таблицы в базе данных """
     connection = psycopg2.connect(database=database_name.lower(), **params)
 
     with connection.cursor() as cursor:
@@ -84,6 +82,7 @@ def create_tables(database_name, params):
 
 
 def fill_db(employers: list[dict], database_name, params):
+    """ Заполняет базу данных """
     connection = psycopg2.connect(database=database_name.lower(), **params)
 
     with connection.cursor() as cursor:
@@ -112,6 +111,7 @@ def fill_db(employers: list[dict], database_name, params):
 
 
 def update_database_config():
+    """ Обновляет конфигурацию базы данных """
     config_data = {
         'host': input('Введите хост: '),
         'user': input('Введите имя пользователя: '),

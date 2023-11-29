@@ -9,7 +9,6 @@ class DBManager:
 
     def get_companies_and_vacancies_count(self):
         """ Метод для получения компаний и количества вакансий у каждой компании. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
@@ -18,7 +17,8 @@ class DBManager:
                                'JOIN vacancies USING (company_id) '
                                'GROUP BY company_name;')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -28,7 +28,6 @@ class DBManager:
 
     def get_all_vacancies(self):
         """ Метод для получения всех вакансий. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
@@ -36,7 +35,8 @@ class DBManager:
                                'FROM vacancies '
                                'JOIN companies USING (company_id);')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -46,7 +46,6 @@ class DBManager:
 
     def get_avg_salary(self):
         """ Метод для получения средней зарплаты. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
@@ -55,7 +54,8 @@ class DBManager:
                                'JOIN vacancies USING (company_id) '
                                'GROUP BY company_name;')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -72,7 +72,8 @@ class DBManager:
                                'FROM vacancies '
                                'WHERE salary > (SELECT AVG(salary) FROM vacancies);')
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
@@ -92,7 +93,8 @@ class DBManager:
                 OR lower(title_vacancy) LIKE '%{keyword}'
                 OR lower(title_vacancy) LIKE '{keyword}%'""")
 
-                data = cursor.fetchall()
+                rows = cursor.fetchall()
+                data = "\n".join([str(row) for row in rows])
 
         except (Exception, psycopg2.DatabaseError) as error:
             return f'[INFO] {error}'
