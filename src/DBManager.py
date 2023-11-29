@@ -9,7 +9,6 @@ class DBManager:
 
     def get_companies_and_vacancies_count(self):
         """ Метод для получения компаний и количества вакансий у каждой компании. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
@@ -29,7 +28,6 @@ class DBManager:
 
     def get_all_vacancies(self):
         """ Метод для получения всех вакансий. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
@@ -48,7 +46,6 @@ class DBManager:
 
     def get_avg_salary(self):
         """ Метод для получения средней зарплаты. """
-
         try:
             connection = psycopg2.connect(database=self.database_name, **self.params)
             with connection.cursor() as cursor:
